@@ -5,20 +5,16 @@
 }
 
 body {
-  background-color: #000080;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  min-height: 100vh;
+  background-color: #efbf04;
   margin: 0;
 }
 
-main {
-  flex: 1;
-  padding: 20px;
+h1 {
+  color: #000080;
 }
 
 footer {
-  background-color: #efbf04;
+  background-color: #000080;
   color: white;
   text-align: center;
   padding: 20px 0;
