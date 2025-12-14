@@ -38,6 +38,33 @@ function drawCourses(parsedData)
   }
 }
 
+function calcPercentage(row)
+{
+  number = document.getElementById("number");
+  letter = document.getElementById("letter");
+  table = document.getElementById("table");
+
+  points = Number(row.cells[1].lastChild.value);
+  total = Number(row.cells[3].lastChild.value);
+  var percentage = points / total * 10000;
+  percentage = Math.round(percentage) / 100;
+  if ( percentage ) row.cells[4].innerHTML = percentage + "%";
+
+  var totalPoints = 0;
+  var totalTotal = 0;
+
+  for ( var i = 0; i < table.rows.length; ++i ) {
+    var tmp = Number(table.rows[i].cells[1].lastChild.value);
+    if ( !Number.isNaN(tmp) ) totalPoints += tmp;
+    tmp = Number(table.rows[i].cells[3].lastChild.value);
+    if ( !Number.isNaN(tmp) ) totalTotal += tmp; 
+  }
+  percentage = totalPoints / totalTotal * 10000;
+  percentage = Math.round(percentage) / 100;
+  number.innerText = " (" + percentage + ")";
+  letter.innerText = getLetterGrade(percentage); 
+}
+
 function drawAssignment(table, assignment)
 {
   const footer = document.getElementById("footer");
@@ -48,6 +75,9 @@ function drawAssignment(table, assignment)
 
   const points = row.insertCell(1);
   pointsInput = document.createElement("input");
+  pointsInput.onchange = function() {
+    calcPercentage(row);
+  }; 
   pointsInput.classList.add("points");
   if ( assignment.Point ) pointsInput.value = assignment.Point;
   points.appendChild(pointsInput);
@@ -57,16 +87,15 @@ function drawAssignment(table, assignment)
   
   const totalPoints = row.insertCell(3);
   totalPointsInput = document.createElement("input");
+  totalPointsInput.onchange = function() {
+    calcPercentage(row);
+  }; 
   totalPointsInput.classList.add("points");
   if ( assignment.PointPossible ) totalPointsInput.value = assignment.PointPossible;
   totalPoints.appendChild(totalPointsInput);
 
   const percentageText = row.insertCell(4);
-  const pointsNum = Number(pointsInput.value);
-  const totalPointsNum = Number(totalPointsInput.value);
-  var percentage = pointsNum / totalPointsNum * 10000;
-  percentage = Math.round(percentage) / 100;
-  if ( percentage ) percentageText.innerHTML = percentage + "%";
+  calcPercentage(row);
 }
 
 function drawAssignments(coursedata, courseID)
@@ -77,12 +106,19 @@ function drawAssignments(coursedata, courseID)
     courses[0].remove();
   }
 
-  const name = document.body.insertBefore(document.createElement("p"), footer);
-  name.textContent = coursedata[courseID].CourseName;
+  const name = document.body.insertBefore(document.createElement("span"), footer);
+  name.textContent = coursedata[courseID].CourseName + " - ";
+  const letter = document.createElement("span");
+  letter.id = "letter";
+  document.body.insertBefore(letter, footer);
+  const number = document.createElement("span");
+  number.id = "number";
+  document.body.insertBefore(number, footer); 
 
   const assignments = coursedata[courseID].Marks.Mark[0].Assignments.Assignment;
   
   const assignmentTable = document.createElement("table");
+  assignmentTable.id = "table";
   assignmentTable.classList.add("assignment");
   document.body.insertBefore(assignmentTable, footer);
 
@@ -110,13 +146,11 @@ async function loginAndFetch()
   title.textContent = "Grades";
 
   const tagline = document.getElementById('site-tagline');
-  tagline.remove();
-
   const loginui = document.getElementById('login-section');
+  
+  tagline.remove();
   loginui.remove();
 
   const parsedData = JSON.parse(data);
-  console.log(parsedData);
-
   drawCourses(parsedData);
 }

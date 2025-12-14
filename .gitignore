@@ -1,6 +1,5 @@
 .firebase
 .firebaserc
 node_modules
-
-# Local Netlify folder
 .netlify
+.*.sw?
