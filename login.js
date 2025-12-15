@@ -130,7 +130,7 @@ function drawAssignments(coursedata, courseID)
 
 async function loginAndFetch()
 {
-  const response = await fetch("/api", {
+  const response = await fetch("/api/api", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
@@ -141,6 +141,7 @@ async function loginAndFetch()
   });
 
   const data = await response.json();
+  console.log(data);
 
   const title = document.getElementById('site-title');
   title.textContent = "Grades";

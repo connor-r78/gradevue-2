@@ -1,5 +1,3 @@
-.firebase
-.firebaserc
 node_modules
-.netlify
 .*.sw?
+.vercel
