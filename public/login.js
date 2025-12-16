@@ -1,162 +1,159 @@
-function getLetterGrade(percentage)
-{
+const getLetterGrade = percentage => {
   percentage = Math.round(percentage);
+  if (percentage >= 93) return "A";
+  if (percentage >= 90) return "A-";
+  if (percentage >= 87) return "B+";
+  if (percentage >= 83) return "B";
+  if (percentage >= 80) return "B-";
+  if (percentage >= 77) return "C+";
+  if (percentage >= 73) return "C";
+  if (percentage >= 70) return "C-";
+  if (percentage >= 67) return "D+";
+  if (percentage >= 64) return "D";
+  return "E";
+};
 
-  if ( percentage >= 93 ) return "A";
-  else if ( percentage >= 90 ) return "A-";
-  else if ( percentage >= 87 ) return "B+";
-  else if ( percentage >= 83 ) return "B";
-  else if ( percentage >= 80 ) return "B-";
-  else if ( percentage >= 77 ) return "C+";
-  else if ( percentage >= 73 ) return "C";
-  else if ( percentage >= 70 ) return "C-";
-  else if ( percentage >= 67 ) return "D+";
-  else if ( percentage >= 64 ) return "D";
-  else return "E";
-}
+const calcPercentage = row => {
+  const numberEl = document.getElementById("number");
+  const letterEl = document.getElementById("letter");
+  const table = document.getElementById("table");
 
-function drawCourses(parsedData)
-{
-  document.body.innerHTML = "";
-  console.log(parsedData);
+  const points = Number(row.cells[1].querySelector("input").value);
+  const total = Number(row.cells[3].querySelector("input").value);
 
-  const footer = document.getElementById('footer');
-  const coursedata = parsedData.Gradebook.Courses.Course;
+  let percentage = points / total * 100;
+  percentage = Math.round(percentage * 100) / 100;
+  if (!isNaN(percentage)) row.cells[4].textContent = `${percentage}%`;
 
-  for ( let i = 0; i < coursedata.length; ++i ) {
-    const course = document.body.insertBefore(document.createElement("span"), footer);
-    course.textContent = coursedata[i].CourseName;
-    course.classList.add( "coursedata");
+  let totalPoints = 0;
+  let totalTotal = 0;
 
-    const grade = document.body.insertBefore(document.createElement("button"), footer);
-    grade.id = coursedata[i].CourseID;
-    grade.classList.add("coursedata");
-    grade.textContent = coursedata[i].Marks.Mark[0].CalculatedScoreString;
-    grade.addEventListener("click", function() {
-      drawAssignments(parsedData, i);
-    });
+  Array.from(table.rows).forEach(r => {
+    const p = Number(r.cells[1].querySelector("input").value);
+    if (!isNaN(p)) totalPoints += p;
+    const t = Number(r.cells[3].querySelector("input").value);
+    if (!isNaN(t)) totalTotal += t;
+  });
 
-    const br = document.body.insertBefore(document.createElement("br"), footer);
-    br.classList.add("coursedata");
-  }
-}
+  const overall = totalPoints / totalTotal * 100;
+  const roundedOverall = Math.round(overall * 100) / 100;
+  numberEl.textContent = roundedOverall;
+  letterEl.textContent = getLetterGrade(roundedOverall);
+};
 
-function calcPercentage(row)
-{
-  number = document.getElementById("number");
-  letter = document.getElementById("letter");
-  table = document.getElementById("table");
-
-  points = Number(row.cells[1].lastChild.value);
-  total = Number(row.cells[3].lastChild.value);
-  var percentage = points / total * 10000;
-  percentage = Math.round(percentage) / 100;
-  if ( percentage ) row.cells[4].innerHTML = percentage + "%";
-
-  var totalPoints = 0;
-  var totalTotal = 0;
-
-  for ( var i = 0; i < table.rows.length; ++i ) {
-    var tmp = Number(table.rows[i].cells[1].lastChild.value);
-    if ( !Number.isNaN(tmp) ) totalPoints += tmp;
-    tmp = Number(table.rows[i].cells[3].lastChild.value);
-    if ( !Number.isNaN(tmp) ) totalTotal += tmp; 
-  }
-  percentage = totalPoints / totalTotal * 10000;
-  percentage = Math.round(percentage) / 100;
-  number.innerText = percentage;
-  letter.innerText = getLetterGrade(percentage); 
-}
-
-function drawAssignment(table, assignment)
-{
-  const footer = document.getElementById("footer");
-
+const drawAssignment = (table, assignment) => {
   const row = table.insertRow();
-  const name = row.insertCell(0);
-  name.innerHTML = assignment.Measure;
+  row.insertCell(0).textContent = assignment.Measure;
 
-  const points = row.insertCell(1);
-  pointsInput = document.createElement("input");
-  pointsInput.onchange = function() {
-    calcPercentage(row);
-  }; 
-  pointsInput.classList.add("points");
-  if ( assignment.Point ) pointsInput.value = assignment.Point;
-  points.appendChild(pointsInput);
+  const pointsCell = row.insertCell(1);
+  const pointsInput = document.createElement("input");
+  pointsInput.type = "number";
+  pointsInput.value = assignment.Point || 0;
+  pointsInput.oninput = () => calcPercentage(row);
+  pointsCell.appendChild(pointsInput);
 
-  const slash = row.insertCell(2);
-  slash.innerHTML = "/";
-  
-  const totalPoints = row.insertCell(3);
-  totalPointsInput = document.createElement("input");
-  totalPointsInput.onchange = function() {
-    calcPercentage(row);
-  }; 
-  totalPointsInput.classList.add("points");
-  if ( assignment.PointPossible ) totalPointsInput.value = assignment.PointPossible;
-  totalPoints.appendChild(totalPointsInput);
+  row.insertCell(2).textContent = "/";
 
-  const percentageText = row.insertCell(4);
+  const totalCell = row.insertCell(3);
+  const totalInput = document.createElement("input");
+  totalInput.type = "number";
+  totalInput.value = assignment.PointPossible || 0;
+  totalInput.oninput = () => calcPercentage(row);
+  totalCell.appendChild(totalInput);
+  totalCell.classList.add("points");
+
+  row.insertCell(4);
   calcPercentage(row);
-}
+};
 
-function drawAssignments(parsedData, courseID)
-{
-  const coursedata = parsedData.Gradebook.Courses.Course;
+const drawAssignments = (parsedData, courseID) => {
+  document.body.innerHTML = "";
+  const courses = document.querySelectorAll(".coursedata");
+  courses.forEach(el => el.remove());
 
   const footer = document.getElementById("footer");
-  const courses = document.body.getElementsByClassName("coursedata");
-  while ( courses.length > 0 ) {
-    courses[0].remove();
-  }
+  const course = parsedData.Gradebook.Courses.Course[courseID];
 
-  const name = document.body.insertBefore(document.createElement("span"), footer);
-  name.textContent = coursedata[courseID].CourseName + " - ";
+  const name = document.createElement("span");
+  name.textContent = `${course.CourseName} - `;
+  document.body.insertBefore(name, footer);
+
   const letter = document.createElement("span");
   letter.id = "letter";
   document.body.insertBefore(letter, footer);
+
   const number = document.createElement("span");
   number.id = "number";
-  document.body.insertBefore(number, footer); 
+  document.body.insertBefore(number, footer);
 
-  const back = document.body.insertBefore(document.createElement("button"), footer);
+  const back = document.createElement("button");
   back.textContent = "Back";
-  back.addEventListener("click", function() {
-    drawCourses(parsedData);
+  back.classList.add("back-btn");
+  back.addEventListener("click", () => drawCourses(parsedData));
+  document.body.insertBefore(back, footer);
+
+  const assignments = course.Marks.Mark[0].Assignments.Assignment;
+  const table = document.createElement("table");
+  table.id = "table";
+  table.classList.add("assignment");
+  document.body.insertBefore(table, footer);
+
+  if (Array.isArray(assignments)) {
+    assignments.forEach(a => drawAssignment(table, a));
+  } else {
+    drawAssignment(table, assignments);
+  }
+};
+
+const drawCourses = parsedData => {
+  document.body.innerHTML = "";
+  const footer = document.getElementById("footer");
+  const courses = parsedData.Gradebook.Courses.Course;
+
+  const coursesContainer = document.createElement("div");
+  coursesContainer.classList.add("courses-container");
+  document.body.insertBefore(coursesContainer, footer);
+
+  courses.forEach((course, i) => {
+    // Create course card
+    const card = document.createElement("div");
+    card.classList.add("course-card");
+
+    // Course name
+    const courseName = document.createElement("h3");
+    courseName.textContent = course.CourseName;
+    card.appendChild(courseName);
+
+    // Calculated grade
+    const grade = document.createElement("span");
+    grade.classList.add("course-grade");
+    grade.textContent = course.Marks.Mark[0].CalculatedScoreString;
+    card.appendChild(grade);
+
+    // Click event to view assignments
+    card.addEventListener("click", () => drawAssignments(parsedData, i));
+
+    coursesContainer.appendChild(card);
   });
+};
 
-  const assignments = coursedata[courseID].Marks.Mark[0].Assignments.Assignment;
-  
-  const assignmentTable = document.createElement("table");
-  assignmentTable.id = "table";
-  assignmentTable.classList.add("assignment");
-  document.body.insertBefore(assignmentTable, footer);
-
-  if ( assignments.length )
-    for ( var i = 0; i < assignments.length; ++i ) 
-      drawAssignment(assignmentTable, assignments[i]);
-  else drawAssignment(assignmentTable, assignments);
-}
-
-async function loginAndFetch()
-{
+const loginAndFetch = async () => {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-  document.body.innerHTML = "Loading...";
-  
+  document.body.innerHTML = `<p class="loading">Loading...</p>`;
+
   const response = await fetch("/api/api", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       district: "https://studentvue.vbcps.com",
-      username: username, 
-      password: password,
+      username,
+      password
     })
   });
-  document.body.innerHTML = "";
 
   const data = await response.json();
+  document.body.innerHTML = "";
 
   const title = document.createElement("h1");
   title.id = "site-title";
@@ -165,4 +162,5 @@ async function loginAndFetch()
 
   const parsedData = JSON.parse(data);
   drawCourses(parsedData);
-}
+};
+
