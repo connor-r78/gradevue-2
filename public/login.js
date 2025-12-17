@@ -1,9 +1,16 @@
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   const creds = getCredentials();
-  if (creds) {
-    loginAndFetch(creds.username, creds.password);
-  }
   
+  if (creds) {
+    try {
+      await loginAndFetch(creds.username, creds.password);
+      return;
+    } catch (err) {
+      console.error("Login failed: ", err);
+      clearCredentials();
+    }
+  }
+
   const form = document.querySelector("form");
   if (form) {
     form.addEventListener("submit", e => {
@@ -184,6 +191,10 @@ const loginAndFetch = async (username, password) => {
     })
   });
 
+  if (!response.ok) {
+    throw new Error("Login failed: ${response.status}");
+  }
+
   const data = await response.json();
   saveCredentials(username, password);
   document.body.innerHTML = "";
@@ -196,4 +207,3 @@ const loginAndFetch = async (username, password) => {
   const parsedData = JSON.parse(data);
   drawCourses(parsedData);
 };
-
