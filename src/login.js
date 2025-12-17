@@ -1,13 +1,3 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const form = document.querySelector("form");
-  if (form) {
-    form.addEventListener("submit", e => {
-      e.preventDefault();
-      loginAndFetch();
-    });
-  }
-});
-
 const getLetterGrade = percentage => {
   percentage = Math.round(percentage);
   if (percentage >= 93) return "A";
@@ -125,22 +115,18 @@ const drawCourses = parsedData => {
   document.body.insertBefore(coursesContainer, footer);
 
   courses.forEach((course, i) => {
-    // Create course card
     const card = document.createElement("div");
     card.classList.add("course-card");
 
-    // Course name
     const courseName = document.createElement("h3");
     courseName.textContent = course.CourseName;
     card.appendChild(courseName);
 
-    // Calculated grade
     const grade = document.createElement("span");
     grade.classList.add("course-grade");
     grade.textContent = course.Marks.Mark[0].CalculatedScoreString;
     card.appendChild(grade);
 
-    // Click event to view assignments
     card.addEventListener("click", () => drawAssignments(parsedData, i));
 
     coursesContainer.appendChild(card);
@@ -174,3 +160,4 @@ const loginAndFetch = async () => {
   drawCourses(parsedData);
 };
 
+export default loginAndFetch;

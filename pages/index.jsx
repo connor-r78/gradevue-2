@@ -6,7 +6,7 @@ export default function Index() {
       <h1 id="site-title">GradeVue 2</h1>
       <p id="site-tagline">A better way to view your grades on StudentVue</p>
       <div class="cta-buttons">
-        <a href="login.html" class="btn btn-primary">Login</a>
+        <a href="login" class="btn btn-primary">Login</a>
       </div>
     </div>
   </header>

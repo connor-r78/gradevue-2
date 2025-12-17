@@ -1,3 +1,5 @@
+import loginAndFetch from "../src/login.js";
+
 export default function Login() {
   return (
   <>
@@ -17,7 +19,12 @@ export default function Login() {
           <input type = "password" id = "password" name = "password" required/>
           <br/>
           <div class = "cta-buttons">
-            <button type = "submit" class = "btn-primary">Login</button>
+            <button 
+              onClick = {loginAndFetch}
+              type = "submit" 
+              className = "btn btn-primary">
+                Login
+            </button>
           </div>
         </form>
       </div>
