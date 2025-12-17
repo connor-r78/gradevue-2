@@ -207,3 +207,9 @@ const loginAndFetch = async (username, password) => {
   const parsedData = JSON.parse(data);
   drawCourses(parsedData);
 };
+
+const logout = () => {
+  clearCredentials();
+  location.reload();
+};
+
