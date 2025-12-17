@@ -192,7 +192,7 @@ const loginAndFetch = async (username, password) => {
   });
 
   if (!response.ok) {
-    throw new Error("Login failed: ${response.status}");
+    throw new Error(`${response.status}`);
   }
 
   const data = await response.json();
