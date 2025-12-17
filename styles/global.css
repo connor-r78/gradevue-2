@@ -153,6 +153,7 @@ footer {
   padding: 12px 0;
   border-radius: 30px;
   font-weight: bold;
+  outline: none;
   text-decoration: none;
   transition: 0.3s;
   cursor: pointer;

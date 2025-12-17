@@ -1,4 +1,4 @@
-import loginAndFetch from "../src/login.js";
+import loginAndFetch from "./login.js";
 
 export default function Login() {
   return (
