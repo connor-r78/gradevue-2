@@ -1,4 +1,9 @@
 document.addEventListener("DOMContentLoaded", () => {
+  const creds = getCredentials();
+  if (creds) {
+    loginAndFetch(creds.username, creds.password);
+  }
+  
   const form = document.querySelector("form");
   if (form) {
     form.addEventListener("submit", e => {
@@ -13,7 +18,7 @@ const saveCredentials = (username, password) => {
   localStorage.setItem("password", password);
 }
 
-constCredentials = () => {
+const getCredentials = () => {
   const username = localStorage.getItem("username");
   const password = localStorage.getItem("password");
   if (!username || !password) return null;
@@ -164,9 +169,9 @@ const drawCourses = parsedData => {
   });
 };
 
-const loginAndFetch = async () => {
-  const username = document.getElementById("username").value;
-  const password = document.getElementById("password").value;
+const loginAndFetch = async (username, password) => {
+  username ??= document.getElementById("username").value;
+  password ??= document.getElementById("password").value;
   document.body.innerHTML = `<p class="loading">Loading...</p>`;
 
   const response = await fetch("/api/api", {
@@ -180,6 +185,7 @@ const loginAndFetch = async () => {
   });
 
   const data = await response.json();
+  saveCredentials(username, password);
   document.body.innerHTML = "";
 
   const title = document.createElement("h1");
