@@ -36,7 +36,12 @@ header {
   opacity: 0.8;
 }
 
-/* CTA Buttons */
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
 .cta-buttons .btn {
   padding: 12px 30px;
   border-radius: 30px;
@@ -48,6 +53,7 @@ header {
 .btn-primary {
   background-color: #3b82f6;
   color: white;
+  width: 70%;
 }
 
 .btn-primary:hover {
@@ -79,7 +85,6 @@ header {
   margin-bottom: 15px;
 }
 
-/* -------------------- Footer -------------------- */
 footer {
   background-color: #111827;
   color: #9ca3af;
@@ -88,7 +93,6 @@ footer {
   font-size: 0.9rem;
 }
 
-/* -------------------- Login Section -------------------- */
 #login-section {
   display: flex;
   justify-content: center;
@@ -149,6 +153,7 @@ footer {
   padding: 12px 0;
   border-radius: 30px;
   font-weight: bold;
+  outline: none;
   text-decoration: none;
   transition: 0.3s;
   cursor: pointer;

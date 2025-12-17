@@ -26,8 +26,6 @@ export default async function handler(req, res) {
     return res.status(200).json(gradebook);
   } catch ( err ) {
     console.error(err);
-    alert("Login failed! Make sure you don't include @vbstudents");
     return res.status(500).json({ error: "Login failed" });
   }
 }
-
