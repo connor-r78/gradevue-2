@@ -1,3 +1,13 @@
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form");
+  if (form) {
+    form.addEventListener("submit", e => {
+      e.preventDefault();
+      loginAndFetch();
+    });
+  }
+});
+
 const getLetterGrade = percentage => {
   percentage = Math.round(percentage);
   if (percentage >= 93) return "A";
