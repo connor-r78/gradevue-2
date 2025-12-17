@@ -8,6 +8,23 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+const saveCredentials = (username, password) => {
+  localStorage.setItem("username", username);
+  localStorage.setItem("password", password);
+}
+
+constCredentials = () => {
+  const username = localStorage.getItem("username");
+  const password = localStorage.getItem("password");
+  if (!username || !password) return null;
+  return {username, password};
+}
+
+const clearCredentials = () => {
+  localStorage.removeItem("username");
+  localStorage.removeItem("password");
+}
+
 const getLetterGrade = percentage => {
   percentage = Math.round(percentage);
   if (percentage >= 93) return "A";
