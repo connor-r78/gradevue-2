@@ -4,8 +4,10 @@ GradeVue 2 is a project dedicated to providing a better experience than StudentV
 
 Feature List
 * [x] List grades
-* [ ] Achieve feature parity with GradeVue
+* [x] Hypothetical grades
+* [ ] Hypothetical assignments
 * [ ] Support 4x4 classes
+* [ ] Achieve feature parity with GradeVue
 * [ ] Course planning
 * [ ] GPA calculator w| hypothetical mode
 * [ ] Games unlocked by straight A's
