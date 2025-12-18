@@ -110,6 +110,14 @@ footer {
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
+#login-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+  margin: 0;
+}
+
 .login-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 20px 35px rgba(0,0,0,0.8);
@@ -152,6 +160,7 @@ footer {
   text-decoration: none;
   transition: 0.3s;
   cursor: pointer;
+  width: 100%;
 }
 
 .cta-buttons .btn-primary:hover {
