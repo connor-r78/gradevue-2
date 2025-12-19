@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
 
   const loadingMsg = document.createElement("p");
   loadingMsg.id = "initial-loading";
-  loadingMsg.textContent = "Loading your grades...";
+  loadingMsg.textContent = "Loading...";
   loadingMsg.classList.add("loading"); 
   document.body.appendChild(loadingMsg);
 
@@ -205,9 +205,9 @@ const loginAndFetch = async () => {
   });
 
   if (!response.ok) {
-      alert("Login Failed");
-      location.reload();
-      return;
+    alert("Login failed");
+    location.reload();
+    return;
   }
 
   const data = await response.json();
