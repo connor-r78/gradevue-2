@@ -1,12 +1,54 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.querySelector("form");
+  
   if (form) {
+    form.style.display = "none";
+    
     form.addEventListener("submit", e => {
       e.preventDefault();
       loginAndFetch();
     });
   }
+
+  const loadingMsg = document.createElement("p");
+  loadingMsg.id = "initial-loading";
+  loadingMsg.textContent = "Loading your grades...";
+  loadingMsg.classList.add("loading"); 
+  document.body.appendChild(loadingMsg);
+
+  await checkSession(form, loadingMsg);
 });
+
+const checkSession = async (form, loadingMsg) => {
+  try {
+    const response = await fetch("/api/api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({}) 
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      document.body.innerHTML = "";
+
+      const title = document.createElement("h1");
+      title.id = "site-title";
+      title.textContent = "Grades";
+      document.body.appendChild(title);
+
+      const parsedData = JSON.parse(data);
+      drawCourses(parsedData);
+    } else {
+      throw new Error("Login failed");
+    }
+  } catch (e) {
+    if (loadingMsg) loadingMsg.remove();
+
+    if (form) {
+      form.style.display = ""; 
+    }
+  }
+};
 
 const getLetterGrade = percentage => {
   percentage = Math.round(percentage);
@@ -161,6 +203,12 @@ const loginAndFetch = async () => {
       password
     })
   });
+
+  if (!response.ok) {
+      alert("Login Failed");
+      location.reload();
+      return;
+  }
 
   const data = await response.json();
   document.body.innerHTML = "";
