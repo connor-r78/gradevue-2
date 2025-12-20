@@ -2,7 +2,6 @@
   "redirects": [
     {
       "source": "/(.*)",
-      "has": [{ "type": "protocol", "value": "http" }],
       "destination": "https://:host/:path*",
       "permanent": true
     }
