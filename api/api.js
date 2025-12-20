@@ -22,7 +22,6 @@ function decrypt(text) {
 }
 
 export default async function handler(req, res) {
-  res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
 
@@ -63,7 +62,7 @@ export default async function handler(req, res) {
 
     const encryptedCookie = encrypt(JSON.stringify({ district, username, password }));
 
-    res.setHeader("Set-Cookie", `auth_token=${encryptedCookie}; HttpOnly; Path=/; Max-Age=2592000; SameSite=Strict`);
+    res.setHeader("Set-Cookie", `auth_token=${encryptedCookie}; HttpOnly; Secure; Path=/; Max-Age=2592000; SameSite=Strict`);
 
     return res.status(200).json(gradebook);
 
