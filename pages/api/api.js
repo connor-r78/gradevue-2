@@ -1,4 +1,4 @@
-import StudentVue from "studentvue.js";
+import StudentVue from "./studentvue.js";
 import crypto from "crypto";
 import cookie from "cookie";
 
