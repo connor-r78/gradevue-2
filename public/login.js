@@ -28,20 +28,20 @@ const calcPercentage = row => {
   const letterEl = document.getElementById("letter");
   const table = document.getElementById("table");
 
-  const points = Number(row.cells[1].querySelector("input").value);
-  const total = Number(row.cells[3].querySelector("input").value);
+  const points = Number(row.cells[2].querySelector("input").value);
+  const total = Number(row.cells[4].querySelector("input").value);
 
   let percentage = points / total * 100;
   percentage = Math.round(percentage * 100) / 100;
-  if (!isNaN(percentage)) row.cells[4].textContent = `${percentage}%`;
+  if (!isNaN(percentage)) row.cells[5].textContent = `${percentage}%`;
 
   let totalPoints = 0;
   let totalTotal = 0;
 
   Array.from(table.rows).forEach(r => {
-    const p = Number(r.cells[1].querySelector("input").value);
+    const p = Number(r.cells[2].querySelector("input").value);
     if (!isNaN(p)) totalPoints += p;
-    const t = Number(r.cells[3].querySelector("input").value);
+    const t = Number(r.cells[4].querySelector("input").value);
     if (!isNaN(t)) totalTotal += t;
   });
 
@@ -52,7 +52,8 @@ const calcPercentage = row => {
 };
 
 const drawAssignment = (table, assignment, position) => {
-  if ( assignment.Notes.toLowerCase.includes("not for grading") return;
+  console.log(assignment.Notes);
+  if ( assignment.Notes.toLowerCase().includes("not for grading") ) return;
   var row;
   if ( position == "top" ) {
     row = table.insertRow(0); 
@@ -61,16 +62,24 @@ const drawAssignment = (table, assignment, position) => {
   }
   row.insertCell(0).textContent = assignment.Measure;
 
-  const pointsCell = row.insertCell(1);
+  const categoryCell = row.insertCell(1);
+  const category = document.createElement("select");
+  categoryCell.appendChild(category);
+
+  const option = document.createElement("option");
+  option.textContent = assignment.Type;
+  category.appendChild(option);
+  
+  const pointsCell = row.insertCell(2);
   const pointsInput = document.createElement("input");
   pointsInput.type = "number";
   pointsInput.value = assignment.Point || 0;
   pointsInput.oninput = () => calcPercentage(row);
   pointsCell.appendChild(pointsInput);
 
-  row.insertCell(2).textContent = "/";
+  row.insertCell(3).textContent = "/";
 
-  const totalCell = row.insertCell(3);
+  const totalCell = row.insertCell(4);
   const totalInput = document.createElement("input");
   totalInput.type = "number";
   totalInput.value = assignment.PointPossible || 0;
@@ -78,7 +87,7 @@ const drawAssignment = (table, assignment, position) => {
   totalCell.appendChild(totalInput);
   totalCell.classList.add("points");
 
-  row.insertCell(4);
+  row.insertCell(5);
   calcPercentage(row);
 };
 

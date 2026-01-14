@@ -362,6 +362,15 @@ table.assignment input:focus {
   margin-top: 50px;
 }
 
+select {
+  appearance: none;
+  background: transparent;
+  color: #e0e0e0;
+  border: 0px;
+  text-align: center;
+  width: 200px;
+}
+
 @media (max-width: 700px) {
   .courses-container {
     grid-template-columns: 1fr;
