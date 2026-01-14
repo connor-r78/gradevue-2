@@ -117,7 +117,6 @@ header {
   margin-bottom: 15px;
 }
 
-/* -------------------- Footer -------------------- */
 footer {
   background-color: #111827;
   color: #9ca3af;
@@ -126,7 +125,6 @@ footer {
   font-size: 0.9rem;
 }
 
-/* -------------------- Login Section -------------------- */
 #login-section {
   display: flex;
   justify-content: center;
@@ -167,7 +165,6 @@ footer {
   margin-bottom: 20px;
 }
 
-/* Inputs */
 .login-card input[type="text"],
 .login-card input[type="password"] {
   padding: 12px 15px;
@@ -186,7 +183,6 @@ footer {
   box-shadow: 0 0 8px #3b82f6;
 }
 
-/* Login button */
 .cta-buttons .btn-primary {
   display: block;
   text-align: center;
@@ -316,25 +312,49 @@ table.assignment input:focus {
   font-weight: bold;
 }
 
-/* Back button */
-button.back-btn {
-  display: block;
-  margin: 20px auto;
+.buttons {
+  display: flex;
+}
+
+.back-btn {
+  align: center;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: 20px;
   background-color: #1f2937;
   color: #e0e0e0;
   border: none;
-  padding: 10px 20px;
+  padding: 0px 10px;
   border-radius: 12px;
   cursor: pointer;
   font-weight: bold;
   transition: 0.3s;
+  text-align: center;
 }
 
-button.back-btn:hover {
+.back-btn:hover {
   background-color: #374151;
 }
 
-/* Loading state */
+.add-hypo {
+  align: center;
+  transition: 0.3s;
+  display: inline-block;
+  margin-left: 20px;
+  margin-right: auto;
+  background-color: #1f2937;
+  color: #e0e0e0;
+  border: none;
+  padding: 0px 10px;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.add-hypo:hover {
+  background-color: #374151;
+}
+
 .loading {
   text-align: center;
   font-size: 1.2rem;
@@ -342,7 +362,6 @@ button.back-btn:hover {
   margin-top: 50px;
 }
 
-/* -------------------- Responsive -------------------- */
 @media (max-width: 700px) {
   .courses-container {
     grid-template-columns: 1fr;

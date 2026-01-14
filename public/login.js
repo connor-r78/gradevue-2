@@ -51,8 +51,13 @@ const calcPercentage = row => {
   letterEl.textContent = getLetterGrade(roundedOverall);
 };
 
-const drawAssignment = (table, assignment) => {
-  const row = table.insertRow();
+const drawAssignment = (table, assignment, position) => {
+  var row;
+  if ( position == "top" ) {
+    row = table.insertRow(0); 
+  } else { 
+    row = table.insertRow();
+  }
   row.insertCell(0).textContent = assignment.Measure;
 
   const pointsCell = row.insertCell(1);
@@ -76,7 +81,20 @@ const drawAssignment = (table, assignment) => {
   calcPercentage(row);
 };
 
+const addHypoAssignment = () => {
+  const table = document.getElementById("table");
+  drawAssignment(
+    table,
+    {"Measure": "Hypothetical Assignment",
+     "Point": "0",
+     "PointPossible": "0"
+    },
+    "top"
+  );
+};
+
 const drawAssignments = (parsedData, courseID) => {
+  console.log(parsedData);
   document.body.innerHTML = "";
   const courses = document.querySelectorAll(".coursedata");
   courses.forEach(el => el.remove());
@@ -96,11 +114,21 @@ const drawAssignments = (parsedData, courseID) => {
   number.id = "number";
   document.body.insertBefore(number, footer);
 
-  const back = document.createElement("button");
+  const buttons = document.createElement("div");
+  buttons.classList.add("buttons");
+  document.body.insertBefore(buttons, footer);
+
+  const back = document.createElement("span");
   back.textContent = "Back";
   back.classList.add("back-btn");
   back.addEventListener("click", () => drawCourses(parsedData));
-  document.body.insertBefore(back, footer);
+  buttons.appendChild(back);
+
+  const addHypo = document.createElement("span");
+  addHypo.textContent = "Add Assignment";
+  addHypo.classList.add("add-hypo");
+  addHypo.addEventListener("click", () => addHypoAssignment());
+  buttons.appendChild(addHypo);
 
   const assignments = course.Marks.Mark[0].Assignments.Assignment;
   const table = document.createElement("table");
@@ -125,22 +153,18 @@ const drawCourses = parsedData => {
   document.body.insertBefore(coursesContainer, footer);
 
   courses.forEach((course, i) => {
-    // Create course card
     const card = document.createElement("div");
     card.classList.add("course-card");
 
-    // Course name
     const courseName = document.createElement("h3");
     courseName.textContent = course.CourseName;
     card.appendChild(courseName);
 
-    // Calculated grade
     const grade = document.createElement("span");
     grade.classList.add("course-grade");
     grade.textContent = course.Marks.Mark[0].CalculatedScoreString;
     card.appendChild(grade);
 
-    // Click event to view assignments
     card.addEventListener("click", () => drawAssignments(parsedData, i));
 
     coursesContainer.appendChild(card);
