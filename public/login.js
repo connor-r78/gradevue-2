@@ -52,6 +52,7 @@ const calcPercentage = row => {
 };
 
 const drawAssignment = (table, assignment, position) => {
+  if ( assignment.Notes.toLowerCase.includes("not for grading") return;
   var row;
   if ( position == "top" ) {
     row = table.insertRow(0); 
