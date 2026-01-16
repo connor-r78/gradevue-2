@@ -8,12 +8,6 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  const loadingMsg = document.createElement("p");
-  loadingMsg.id = "initial-loading";
-  loadingMsg.textContent = "Loading...";
-  loadingMsg.classList.add("loading"); 
-  document.body.appendChild(loadingMsg);
-
   await checkSession(form, loadingMsg);
 });
 
