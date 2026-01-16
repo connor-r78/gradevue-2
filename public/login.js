@@ -1,12 +1,48 @@
 document.addEventListener("DOMContentLoaded", async () => {
   const form = document.querySelector("form");
+  
   if (form) {
     form.addEventListener("submit", e => {
       e.preventDefault();
       loginAndFetch();
     });
   }
+
+  const loadingMsg = document.createElement("p");
+  loadingMsg.id = "initial-loading";
+  loadingMsg.textContent = "Loading...";
+  loadingMsg.classList.add("loading"); 
+  document.body.appendChild(loadingMsg);
+
+  await checkSession(form, loadingMsg);
 });
+
+const checkSession = async (form, loadingMsg) => {
+  try {
+    const username = localStorage.getItem("user");
+    const password = localStorage.getItem("pass");
+
+    const response = await fetch("/api/api", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        district: "https://studentvue.vbcps.com",
+        username,
+        password
+      })
+    });
+
+    if (response.ok) {
+      const data = await response.json();
+      const parsedData = JSON.parse(data);
+      drawCourses(parsedData);
+    } else {
+      console.log("Login failed");
+    }
+  } catch (e) {
+    if (loadingMsg) loadingMsg.remove();
+  }
+};
 
 const getLetterGrade = percentage => {
   percentage = Math.round(percentage);
@@ -197,8 +233,19 @@ const loginAndFetch = async () => {
     })
   });
 
-  const data = await response.json();
+  let data
+  try {
+    data = await response.json();
+  } catch ( error ) {
+    document.body.innerHTML = `<p class="loading">Login failed</p>`;
+    console.log("hue");
+    return;
+  }
+
   document.body.innerHTML = "";
+
+  localStorage.setItem("user", username);
+  localStorage.setItem("pass", password);
 
   const title = document.createElement("h1");
   title.id = "site-title";
