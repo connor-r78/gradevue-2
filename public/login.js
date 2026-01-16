@@ -96,6 +96,7 @@ const addHypoAssignment = () => {
   drawAssignment(
     table,
     {"Measure": "Hypothetical Assignment",
+     "Notes": "",
      "Point": "0",
      "PointPossible": "0"
     },
