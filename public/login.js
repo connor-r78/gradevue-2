@@ -100,7 +100,7 @@ const drawAssignment = (table, assignment, position) => {
   const nameCell = row.insertCell(0);
   const name = document.createElement("input");
   name.type = "text";
-  name.textContent = assignment.Measure;
+  name.value = assignment.Measure;
   nameCell.appendChild(name);
 
   const categoryCell = row.insertCell(1);
