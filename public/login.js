@@ -210,7 +210,9 @@ const drawCourses = parsedData => {
 
     const grade = document.createElement("span");
     grade.classList.add("course-grade");
-    grade.textContent = course.Marks.Mark[0].CalculatedScoreString;
+    grade.textContent = 
+      course.Marks.Mark[0].CalculatedScoreString + 
+      Math.round(course.Marks.Mark[0].CalculatedScoreRaw);
     card.appendChild(grade);
 
     card.addEventListener("click", () => drawAssignments(parsedData, i));
