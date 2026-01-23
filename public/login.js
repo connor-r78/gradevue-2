@@ -98,7 +98,7 @@ const drawAssignment = (table, assignment, position) => {
     row = table.insertRow();
   }
   const nameCell = row.insertCell(0);
-  const name = document.createElemnt("input");
+  const name = document.createElement("input");
   name.type = "text";
   name.textContent = assignment.Measure;
   nameCell.appendChild(name);
