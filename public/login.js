@@ -44,6 +44,7 @@ const checkSession = async (form, loadingMsg) => {
   }
 };
 
+
 const getLetterGrade = percentage => {
   percentage = Math.round(percentage);
   if (percentage >= 93) return "A";
