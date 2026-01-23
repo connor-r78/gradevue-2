@@ -212,8 +212,9 @@ const drawCourses = parsedData => {
     grade.classList.add("course-grade");
     grade.textContent = 
       course.Marks.Mark[0].CalculatedScoreString + 
-      " " +
-      Math.round(course.Marks.Mark[0].CalculatedScoreRaw);
+      "  " +
+      Math.round(course.Marks.Mark[0].CalculatedScoreRaw) + 
+      "%";
     card.appendChild(grade);
 
     card.addEventListener("click", () => drawAssignments(parsedData, i));
