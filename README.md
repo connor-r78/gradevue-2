@@ -10,4 +10,4 @@ Feature List
 * [ ] Achieve feature parity with GradeVue
 * [ ] Course planning
 * [ ] GPA calculator w| hypothetical mode
-* [ ] Games unlocked by straight A's
+* [ ] Games unlocked by straight A's (No longer viable)
