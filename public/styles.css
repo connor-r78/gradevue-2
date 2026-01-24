@@ -201,6 +201,25 @@ footer {
   background-color: #059669;
 }
 
+.grades-container {
+  display: grid;
+  grid-template-columns: 400px 1fr;
+  gap: 1rem;
+}
+
+.sidebar {
+  background: linear-gradient(145deg, #1f2937, #111827);
+  border-radius: 20px;
+  margin: 40px;
+  box-shadow: 0 12px 25px rgba(0,0,0,0.6);
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, background 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
 .courses-container {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));

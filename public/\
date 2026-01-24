@@ -197,6 +197,7 @@ const drawCourses = parsedData => {
   const courses = parsedData.Gradebook.Courses.Course;
 
   coursesContainer.classList.add("courses-container");
+  document.body.insertBefore(coursesContainer, footer);
 
   courses.forEach((course, i) => {
     const card = document.createElement("div");
@@ -217,9 +218,8 @@ const drawCourses = parsedData => {
   });
 };
 
-const drawUI = parsedData => {
+const drawUI = () => {
   const container = document.createElement("div");
-  container.classList.add("grades-container");
 
   const elements = document.getElementsByClassName("remove");
   Array.from(elements).forEach(el => el.remove());
@@ -229,14 +229,12 @@ const drawUI = parsedData => {
 
   const footer = document.getElementById("footer");
   const sidebar = document.createElement("div");
-  sidebar.classList.add("sidebar");
+
+  sidebar.classList.add("course-card");
 
   document.body.insertBefore(container, footer);
   container.appendChild(sidebar);
-  console.log(content);
   container.appendChild(content); 
-
-  drawCourses(parsedData);
 };
 
 const loginAndFetch = async () => {
@@ -267,7 +265,9 @@ const loginAndFetch = async () => {
   localStorage.setItem("user", username);
   localStorage.setItem("pass", password);
 
+  drawUI();
+
   const parsedData = JSON.parse(data);
-  drawUI(parsedData);
+  drawCourses(parsedData);
 };
 
