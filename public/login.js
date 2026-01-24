@@ -196,11 +196,11 @@ const drawAssignments = (parsedData, courseID) => {
 };
 
 const drawCourses = parsedData => {
-  document.body.innerHTML = "";
+  const coursesContainer = document.getElementById("content");
+
   const footer = document.getElementById("footer");
   const courses = parsedData.Gradebook.Courses.Course;
 
-  const coursesContainer = document.createElement("div");
   coursesContainer.classList.add("courses-container");
   document.body.insertBefore(coursesContainer, footer);
 
@@ -227,10 +227,26 @@ const drawCourses = parsedData => {
   });
 };
 
+const drawUI = () => {
+  const elements = document.getElementsByClassName("remove");
+  Array.from(elements).forEach(el => el.remove());
+
+  const content = document.createElement("div");
+  content.id = "content";
+
+  const footer = document.getElementById("footer");
+  const sidebar = document.createElement("div");
+
+  document.body.insertBefore(content, footer);
+};
+
 const loginAndFetch = async () => {
   const username = document.getElementById("username").value;
   const password = document.getElementById("password").value;
-  document.body.innerHTML = `<p class="loading">Loading...</p>`;
+
+  const loading = document.createElement("p");
+  loading.classList.add("loading");
+  loading.text = "Loading..."; 
 
   const response = await fetch("/api/api", {
     method: "POST",
@@ -246,20 +262,13 @@ const loginAndFetch = async () => {
   try {
     data = await response.json();
   } catch ( error ) {
-    document.body.innerHTML = `<p class="loading">Login failed</p>`;
-    console.log("hue");
     return;
   }
-
-  document.body.innerHTML = "";
 
   localStorage.setItem("user", username);
   localStorage.setItem("pass", password);
 
-  const title = document.createElement("h1");
-  title.id = "site-title";
-  title.textContent = "Grades";
-  document.body.appendChild(title);
+  drawUI();
 
   const parsedData = JSON.parse(data);
   drawCourses(parsedData);
