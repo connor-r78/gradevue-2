@@ -177,7 +177,7 @@ const drawAssignments = (parsedData, courseID) => {
   addHypo.addEventListener("click", () => addHypoAssignment());
   buttons.appendChild(addHypo);
 
-  const assignments = course.Marks.Mark[0].Assignments.Assignment;
+  const assignments = course.Marks.Mark.Assignments.Assignment;
   const table = document.createElement("table");
   table.id = "table";
   table.classList.add("assignment");
@@ -208,7 +208,7 @@ const drawCourses = parsedData => {
 
     const grade = document.createElement("span");
     grade.classList.add("course-grade");
-    grade.textContent = course.Marks.Mark[0].CalculatedScoreString;
+    grade.textContent = course.Marks.Mark.CalculatedScoreString;
     card.appendChild(grade);
 
     card.addEventListener("click", () => drawAssignments(parsedData, i));
