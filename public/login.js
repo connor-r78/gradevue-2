@@ -168,7 +168,7 @@ const drawAssignments = (parsedData, courseID) => {
   const back = document.createElement("span");
   back.textContent = "Back";
   back.classList.add("back-btn");
-  back.addEventListener("click", () => drawCourses(parsedData));
+  back.addEventListener("click", () => drawUI(parsedData));
   buttons.appendChild(back);
 
   const addHypo = document.createElement("span");
