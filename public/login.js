@@ -252,6 +252,7 @@ const loginAndFetch = async () => {
   localStorage.setItem("pass", password);
 
   const parsedData = JSON.parse(data);
+  localStorage.setItem("data", data);
+  
   window.location.href = "https://gradevue2.org/grades.html";
-  drawCourses(parsedData);
 };
