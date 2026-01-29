@@ -194,7 +194,8 @@ const drawAssignments = (parsedData, courseID) => {
 };
 
 const drawCourses = () => {
-  parsedData = localStorage.getItem("data");
+  let parsedData = localStorage.getItem("data");
+  parsedData = JSON.parse(parsedData);
   
   const content = document.getElementById("content");
   while ( content.firstChild ) {
