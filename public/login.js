@@ -193,7 +193,9 @@ const drawAssignments = (parsedData, courseID) => {
   }
 };
 
-const drawCourses = parsedData => {
+const drawCourses = () => {
+  parsedData = localStorage.getItem("data");
+  
   const content = document.getElementById("content");
   while ( content.firstChild ) {
     content.removeChild(content.firstChild);
