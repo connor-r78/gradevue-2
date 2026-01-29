@@ -8,16 +8,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     });
   }
 
-  const loadingMsg = document.createElement("p");
-  loadingMsg.id = "initial-loading";
-  loadingMsg.textContent = "Loading...";
-  loadingMsg.classList.add("loading"); 
-  document.body.appendChild(loadingMsg);
-
-  await checkSession(form, loadingMsg);
+  await checkSession(form);
 });
 
-const checkSession = async (form, loadingMsg) => {
+const checkSession = async (form) => {
   try {
     const username = localStorage.getItem("user");
     const password = localStorage.getItem("pass");
@@ -40,7 +34,7 @@ const checkSession = async (form, loadingMsg) => {
       console.log("Login failed");
     }
   } catch (e) {
-    if (loadingMsg) loadingMsg.remove();
+    console.error(e);
   }
 };
 
@@ -171,7 +165,7 @@ const drawAssignments = (parsedData, courseID) => {
   const back = document.createElement("span");
   back.textContent = "Back";
   back.classList.add("back-btn");
-  back.addEventListener("click", () => drawUI(parsedData));
+  back.addEventListener("click", () => drawCourses());
   buttons.appendChild(back);
 
   const addHypo = document.createElement("span");
@@ -257,5 +251,10 @@ const loginAndFetch = async () => {
   const parsedData = JSON.parse(data);
   localStorage.setItem("data", data);
   
-  window.location.href = "https://gradevue2.org/grades.html";
+  const baseUrl =
+    typeof window !== "undefined"
+      ? window.location.origin
+      : "https://gradevue2.org";
+
+  window.location.href = `${baseUrl}/grades.html`;
 };
