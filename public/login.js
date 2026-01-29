@@ -154,19 +154,19 @@ const drawAssignments = (parsedData, courseID) => {
 
   const name = document.createElement("span");
   name.textContent = `${course.CourseName} - `;
-  document.body.insertBefore(name, footer);
+  content.appendChild(name);
 
   const letter = document.createElement("span");
   letter.id = "letter";
-  document.body.insertBefore(letter, content);
+  content.appendChild(letter);
 
   const number = document.createElement("span");
   number.id = "number";
-  document.body.insertBefore(number, content);
+  content.appendChild(number);
 
   const buttons = document.createElement("div");
   buttons.classList.add("buttons");
-  document.body.insertBefore(buttons, content);
+  content.appendChild(buttons);
 
   const back = document.createElement("span");
   back.textContent = "Back";
