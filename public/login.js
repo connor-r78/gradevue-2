@@ -141,8 +141,11 @@ const addHypoAssignment = () => {
 };
 
 const drawAssignments = (parsedData, courseID) => {
-  console.log(parsedData);
-  document.body.innerHTML = "";
+  const content = document.getElementById("content");
+  while ( content.firstChild ) {
+    content.removeChild(content.firstChild);
+  }
+  
   const courses = document.querySelectorAll(".coursedata");
   courses.forEach(el => el.remove());
 
@@ -155,15 +158,15 @@ const drawAssignments = (parsedData, courseID) => {
 
   const letter = document.createElement("span");
   letter.id = "letter";
-  document.body.insertBefore(letter, footer);
+  document.body.insertBefore(letter, content);
 
   const number = document.createElement("span");
   number.id = "number";
-  document.body.insertBefore(number, footer);
+  document.body.insertBefore(number, content);
 
   const buttons = document.createElement("div");
   buttons.classList.add("buttons");
-  document.body.insertBefore(buttons, footer);
+  document.body.insertBefore(buttons, content);
 
   const back = document.createElement("span");
   back.textContent = "Back";
@@ -181,9 +184,9 @@ const drawAssignments = (parsedData, courseID) => {
   const table = document.createElement("table");
   table.id = "table";
   table.classList.add("assignment");
-  document.body.insertBefore(table, footer);
+  content.appendChild(table);
 
-  if (Array.isArray(assignments)) {
+  if ( Array.isArray(assignments) ) {
     assignments.forEach(a => drawAssignment(table, a));
   } else {
     drawAssignment(table, assignments);
@@ -191,12 +194,15 @@ const drawAssignments = (parsedData, courseID) => {
 };
 
 const drawCourses = parsedData => {
-  const coursesContainer = document.getElementById("content");
+  const content = document.getElementById("content");
+  while ( content.firstChild ) {
+    content.removeChild(content.firstChild);
+  }
 
   const footer = document.getElementById("footer");
   const courses = parsedData.Gradebook.Courses.Course;
 
-  coursesContainer.classList.add("courses-container");
+  content.classList.add("courses-container");
 
   courses.forEach((course, i) => {
     const card = document.createElement("div");
@@ -213,30 +219,8 @@ const drawCourses = parsedData => {
 
     card.addEventListener("click", () => drawAssignments(parsedData, i));
 
-    coursesContainer.appendChild(card);
+    content.appendChild(card);
   });
-};
-
-const drawUI = parsedData => {
-  const container = document.createElement("div");
-  container.classList.add("grades-container");
-
-  const elements = document.getElementsByClassName("remove");
-  Array.from(elements).forEach(el => el.remove());
-
-  const content = document.createElement("div");
-  content.id = "content";
-
-  const footer = document.getElementById("footer");
-  const sidebar = document.createElement("div");
-  sidebar.classList.add("sidebar");
-
-  document.body.insertBefore(container, footer);
-  container.appendChild(sidebar);
-  console.log(content);
-  container.appendChild(content); 
-
-  drawCourses(parsedData);
 };
 
 const loginAndFetch = async () => {
@@ -268,6 +252,6 @@ const loginAndFetch = async () => {
   localStorage.setItem("pass", password);
 
   const parsedData = JSON.parse(data);
-  drawUI(parsedData);
+  window.location.href = "https://gradevue2.org/grades.html";
+  drawCourses(parsedData);
 };
-
